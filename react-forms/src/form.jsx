@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import validator from 'validator';
 
 const Form = () => {
 
@@ -37,6 +38,11 @@ const Form = () => {
         }
     }
 
+    
+    const validatePhoneNumber = (number) => {
+        const isValidPhoneNumber = validator.isMobilePhone(number)
+        return (isValidPhoneNumber)
+    }
 
 
     const validate = () => {
@@ -47,12 +53,13 @@ const Form = () => {
         if(user.email.length === 0){
             currentErrors.push("email cannot be blank")
         } 
+        if (user.number === '') {
+            return currentErrors
+        } else if (!validatePhoneNumber(user.number) || user.number.length !== 10) {
+            currentErrors.push('invalid phone number')
+        }
         return currentErrors
     }
-
-
-
-
     
     return (
         <>
